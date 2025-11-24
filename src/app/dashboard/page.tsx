@@ -292,7 +292,7 @@ export default function DashboardPage() {
               className="h-10 w-auto rounded"
             />
             <div className="mt-1 text-xs uppercase tracking-[0.22em] text-slate-500">
-              DataNest AI
+              Powered by DataNest AI
             </div>
           </div>
         </div>
@@ -334,7 +334,7 @@ export default function DashboardPage() {
                   className="h-8 w-auto"
                 />
                 <div className="mt-1 text-xs uppercase tracking-[0.22em] text-gray-500">
-                  DataNest AI
+                  Powered by DataNest AI
                 </div>
               </div>
             </div>
