@@ -64,7 +64,7 @@ const OUTPUT_HEADERS = [
   "pdf_url",
 ] as const;
 
-const DEMO_LIMIT = 25;
+const DEMO_LIMIT = 10_000;
 const REQUEST_TIMEOUT = 55_000;
 
 function normalizeHeader(header: string | null | undefined) {
