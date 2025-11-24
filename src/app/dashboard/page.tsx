@@ -75,6 +75,12 @@ function formatCurrency(value: number | null) {
   });
 }
 
+function detailValue(value: unknown) {
+  if (value === null || value === undefined) return null;
+  if (typeof value === "number" || typeof value === "string") return value;
+  return String(value);
+}
+
 export default function DashboardPage() {
   const [address, setAddress] = React.useState("2920 S UNION AVE");
   const [city, setCity] = React.useState("CHICAGO");
@@ -113,6 +119,17 @@ export default function DashboardPage() {
     if (!simpleData) return null;
     return toNumber(simpleData["confidence_score"]);
   }, [simpleData]);
+
+  const beds = React.useMemo(() => detailValue(simpleData?.beds), [simpleData]);
+  const baths = React.useMemo(
+    () => detailValue(simpleData?.baths),
+    [simpleData]
+  );
+  const yearBuilt = React.useMemo(
+    () => detailValue(simpleData?.year_built),
+    [simpleData]
+  );
+  const gla = React.useMemo(() => detailValue(simpleData?.gla), [simpleData]);
 
   const pdfHref = React.useMemo(() => {
     const fromData = isRecord(simpleData?.artifacts)
@@ -275,7 +292,7 @@ export default function DashboardPage() {
               className="h-10 w-auto rounded"
             />
             <div className="mt-1 text-xs uppercase tracking-[0.22em] text-slate-500">
-              Powered by DataNest
+              DataNest AI
             </div>
           </div>
         </div>
@@ -317,7 +334,7 @@ export default function DashboardPage() {
                   className="h-8 w-auto"
                 />
                 <div className="mt-1 text-xs uppercase tracking-[0.22em] text-gray-500">
-                  Powered by DataNest
+                  DataNest AI
                 </div>
               </div>
             </div>
@@ -404,16 +421,44 @@ export default function DashboardPage() {
                 <div className="text-3xl font-semibold">
                   {formattedEstimate ?? (raw ? "No value found" : "—")}
                 </div>
-                {formattedRange ? (
-                  <div className="mt-1 text-sm text-gray-500">
-                    Range: {formattedRange}
-                  </div>
-                ) : null}
-                {typeof confidenceScore === "number" && !Number.isNaN(confidenceScore) ? (
-                  <div className="mt-1 text-sm text-gray-500">
-                    Confidence: {confidenceScore}
-                  </div>
-                ) : null}
+                <div className="mt-3 space-y-1 text-sm text-gray-600">
+                  {formattedRange ? (
+                    <div>
+                      <span className="font-medium text-gray-700">Range:</span>{" "}
+                      {formattedRange}
+                    </div>
+                  ) : null}
+                  {typeof confidenceScore === "number" && !Number.isNaN(confidenceScore) ? (
+                    <div>
+                      <span className="font-medium text-gray-700">Confidence:</span>{" "}
+                      {confidenceScore}
+                    </div>
+                  ) : null}
+                  {beds != null ? (
+                    <div>
+                      <span className="font-medium text-gray-700">Beds:</span>{" "}
+                      {beds}
+                    </div>
+                  ) : null}
+                  {baths != null ? (
+                    <div>
+                      <span className="font-medium text-gray-700">Baths:</span>{" "}
+                      {baths}
+                    </div>
+                  ) : null}
+                  {yearBuilt != null ? (
+                    <div>
+                      <span className="font-medium text-gray-700">Year Built:</span>{" "}
+                      {yearBuilt}
+                    </div>
+                  ) : null}
+                  {gla != null ? (
+                    <div>
+                      <span className="font-medium text-gray-700">GLA:</span>{" "}
+                      {gla}
+                    </div>
+                  ) : null}
+                </div>
                 {pdfHref ? (
                   <a
                     href={pdfHref}
